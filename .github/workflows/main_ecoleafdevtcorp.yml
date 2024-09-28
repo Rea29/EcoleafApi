@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'ecoleafdevtcorp'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_10A28164661A4A149E589E329AA80304 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8A3D179400D84D449A2589FA772361BC }}
           package: .
