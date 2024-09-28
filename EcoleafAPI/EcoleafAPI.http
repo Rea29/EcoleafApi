@@ -1,0 +1,6 @@
+@EcoleafAPI_HostAddress = http://localhost:5227
+
+GET {{EcoleafAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
