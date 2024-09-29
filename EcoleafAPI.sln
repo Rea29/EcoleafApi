@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EcoleafAPI", "EcoleafAPI\EcoleafAPI.csproj", "{E4A15F8F-6E58-443C-A00B-D74D3B667302}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoleafAPI", "EcoleafAPI\EcoleafAPI.csproj", "{E4A15F8F-6E58-443C-A00B-D74D3B667302}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{754B5C99-955E-423D-9113-E131367D06AF}"
 EndProject

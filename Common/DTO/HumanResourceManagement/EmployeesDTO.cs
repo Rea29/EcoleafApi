@@ -56,6 +56,9 @@ namespace Common.DTO.HumanResourceManagement
         public string? DeletedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
 
+        public List<ChildrenDTO>? EmployeesChildren { get; set; }
+        public List<SiblingsDTO>? EmployeesSiblings { get; set; }
+
 
 
 
