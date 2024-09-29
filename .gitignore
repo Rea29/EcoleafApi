@@ -1,0 +1,8 @@
+**/bin/
+**/obj/
+.vs/EcoleafAPI/config/applicationhost.config
+**/.vs
+**/Common/bin
+**/Common/obj
+**/EcoleafAPI/bin
+**/EcoleafAPI/obj
