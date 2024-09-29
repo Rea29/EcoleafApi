@@ -1,4 +1,5 @@
-﻿using Common.DTO.Users;
+﻿using Common.DTO.HumanResourceManagement;
+using Common.DTO.Users;
 using Common.Model.Global.Users;
 using Common.Model.Token;
 using Microsoft.Extensions.Configuration;
@@ -62,8 +63,8 @@ namespace Common.Token
                     new Claim(ClaimTypes.NameIdentifier, user.UserUID.ToString()),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.PrimarySid, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.Name, user.FirstName),
-                    new Claim(ClaimTypes.Surname, user.LastName),
+                    //new Claim(ClaimTypes.Name, user.FirstName),
+                    //new Claim(ClaimTypes.Surname, user.LastName),
                     new Claim(ClaimTypes.Role, (!string.IsNullOrEmpty(user.RoleName)) ? user.RoleName : "GUEST" ),
                     new Claim(ClaimTypes.Expiration, expirationDate.ToString())
                 });

@@ -4,6 +4,7 @@ using Common.Model.Global.Brands;
 using Common.Model.Global.Categories;
 using DTO.HumanResourceManagement;
 using DTO.MaterialRequesitionSlip;
+using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -27,6 +28,7 @@ namespace EcoleafAPI.GraphQL.QueryTypes
         [UseOffsetPaging]
         [UseFiltering]
         [UseSorting]
+        [Authorize]
         //public async Task<IQueryable<MaterialRequisitionSlipDTO>> GetMaterialRequisitionSlip(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext context)
         public async Task<List<UserDTO>> getUsers(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context)
         {

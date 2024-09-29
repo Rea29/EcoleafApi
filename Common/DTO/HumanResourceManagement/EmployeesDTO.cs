@@ -58,7 +58,7 @@ namespace Common.DTO.HumanResourceManagement
 
         public List<ChildrenDTO>? EmployeesChildren { get; set; }
         public List<SiblingsDTO>? EmployeesSiblings { get; set; }
-
+        public string? RoleName { get; set; }
 
 
 
