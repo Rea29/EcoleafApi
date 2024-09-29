@@ -14,17 +14,29 @@ using EcoleafAPI.GraphQL.MutationsTypes;
 using EcoleafAPI.GraphQL.QueryTypes;
 using HotChocolate.Types.Pagination;
 var builder = WebApplication.CreateBuilder(args);
-
-//using (var dbcontext = new dbcontextbuilder().builddbcontext())
-//{
-    //dbcontext.update(entity);
-    //await dbcontext.savechangesasync();
-//}
-
-// Add services to the container.
-var AllowedOrigins = "AllowedOrigins";
 var configuration = builder.Configuration;
 var jwtKey = configuration.GetValue<string>("JwtRequirements:Key");
+
+// Configure JWT authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+var AllowedOrigins = "AllowedOrigins";
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(9999); // HTTP port
@@ -40,6 +52,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 {
     sqlOptions.CommandTimeout(180);  // Adjust command timeout if needed
 }));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: AllowedOrigins,
@@ -51,17 +64,19 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowSpecificOrigin",
-        policy =>
-        {
-            // Allow requests from the React app's LAN IP
-           policy.WithOrigins("http://192.168.1.5:5000", "http://192.168.8.101:5000") // Replace with your React app's IP and port 
-                 .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowSpecificOrigin",
+//        policy =>
+//        {
+//            // Allow requests from the React app's LAN IP
+//           policy.WithOrigins("http://192.168.1.5:5000", "http://192.168.8.101:5000") // Replace with your React app's IP and port 
+//                 .AllowAnyHeader()
+//                .AllowAnyMethod();
+//        });
+//});
+
+builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -109,7 +124,9 @@ builder.Services
          MaxPageSize = int.MaxValue - 1,
          DefaultPageSize = int.MaxValue - 1,
          IncludeTotalCount = true
-     }); 
+     })
+
+     .AddAuthorization(); 
 
 
 var app = builder.Build();
@@ -127,7 +144,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors(AllowedOrigins);
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapGraphQL();
 app.MapControllers();

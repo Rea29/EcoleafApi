@@ -46,17 +46,24 @@ namespace EcoleafAPI
         public DbSet<ProjectsDTO> Projects { get; set; }
         public DbSet<ProgressReportDTO> ProgressReport { get; set; }
         public DbSet<WareHouseInventoryDTO> WareHouseInventory { get; set; }
-       
+        public DbSet<UserTokenDTO> UserToken { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserDTO>()
                 .Ignore(a => a.NotHashPassword);   // don't want to have this in the database
-            modelBuilder.Entity<UserDTO>()
+            modelBuilder.Entity<EmployeesDTO>()
               .Ignore(a => a.RoleName);   // don't want to have this in the database
             modelBuilder.Entity<PersonalProtectiveEquipmentInventoryDTO>()
     .Property(p => p.LineId)
     .IsRequired(false);
             modelBuilder.Entity<MaterialRequisitionSlipDTO>().Ignore(p => p.Items);
+            modelBuilder.Entity<EmployeesDTO>().Ignore(p => p.EmployeesChildren);
+            modelBuilder.Entity<EmployeesDTO>().Ignore(p => p.EmployeesSiblings);
+            modelBuilder.Entity<UserDTO>().Ignore(p => p.RoleName);
+            modelBuilder.Entity<UserDTO>().Ignore(p => p.LineId);
+            modelBuilder.Entity<UserTokenDTO>().Ignore(p => p.LineId);
+
 
         }
 

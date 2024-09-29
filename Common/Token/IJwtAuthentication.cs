@@ -1,4 +1,5 @@
-﻿using Common.DTO.Users;
+﻿using Common.DTO.HumanResourceManagement;
+using Common.DTO.Users;
 using Common.Model.Global.Users;
 using Common.Model.Token;
 using System;
