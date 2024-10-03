@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="13.9.8" />
     <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.9.8" />
     <PackageReference Include="HotChocolate.Data.EntityFramework" Version="13.9.8" />
     <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="13.9.11" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
@@ -24,6 +26,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Datalayer\Datalayer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Mutations\Accounts\" />
   </ItemGroup>
 
 </Project>

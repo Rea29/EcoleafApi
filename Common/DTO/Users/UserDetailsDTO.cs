@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Common.DTO.Users { 
-    public class UserDTO
+    public class UserDetailsDTO
     {
         public Int64? LineId { get; set; }
         [Key]
@@ -38,7 +38,7 @@ namespace Common.DTO.Users {
         public int? LoginAttempt { get; set; }
         public DateTime? LastLoginAttemptAt { get; set; }
         public string? RoleName { get; set; }
-        public List<ModulesDTO>? UserModules { get; set; }
+        public List<UserModulesDTO>? UserModules { get; set; }
         //[NotMapped]
         //public string? AppUrl { get; set; }
     }

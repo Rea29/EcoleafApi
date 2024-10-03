@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcoleafAPI", "EcoleafAPI\Ec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{754B5C99-955E-423D-9113-E131367D06AF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Datalayer", "Datalayer\Datalayer.csproj", "{355DE3E6-0EB3-434E-9B15-523DF120D2D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{754B5C99-955E-423D-9113-E131367D06AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754B5C99-955E-423D-9113-E131367D06AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754B5C99-955E-423D-9113-E131367D06AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{355DE3E6-0EB3-434E-9B15-523DF120D2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{355DE3E6-0EB3-434E-9B15-523DF120D2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{355DE3E6-0EB3-434E-9B15-523DF120D2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{355DE3E6-0EB3-434E-9B15-523DF120D2D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using Common.DTO;
+﻿using Common.Constants;
+using Common.DTO;
 using Common.DTO.Users;
 using Common.Helpers;
 using Common.Model.Global;
@@ -6,6 +7,8 @@ using Common.Model.Global.Input;
 using Common.Model.Global.Users;
 using Common.Token;
 using DTO.MaterialRequesitionSlip;
+using EcoleafAPI.Services.Queries.Users;
+using GreenDonut;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,7 +39,7 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
         //    return res;
         //}
         [GraphQLName("login")]
-        public async Task<LoginGVM> LoginAsync(LoginGVM input, HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context)
+        public async Task<LoginGVM> LoginAsync(LoginGVM input, HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context, [Service] GetUsersQueryService getUsersQueryService)
         {
             var result = new LoginGVM { Email = input.Email, Password = input.Password };
             var validateInput = new ValidateInput();
@@ -45,9 +48,12 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
             try
             {
                 // Find user by email
-                var getUserDetail = await _context.Users
-                    .Where(p => p.Email == input.Email && (p.IsActive == true || p.IsActive == null))
-                    .FirstOrDefaultAsync();
+                UserDTO userDTO = new UserDTO();
+                userDTO.Email = input.Email;
+                var getUserDetail = await getUsersQueryService.GetUsersByEmailQueryAsync(userDTO);
+                //var getUserDetail = await _context.Users
+                //    .Where(p => p.Email == input.Email && (p.IsActive == true || p.IsActive == null))
+                //    .FirstOrDefaultAsync();
 
                 // Handle case where user is not found
                 if (getUserDetail is null)
@@ -113,6 +119,9 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
 
                 _context.UserToken.Add(userToken);
                 await _context.SaveChangesAsync();
+                getUserDetail.Password = "n/a";
+
+
             }
             catch (DbUpdateException ex)
             {
@@ -120,7 +129,7 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
             }
             catch (Exception ex)
             {
-                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { "An error occurred during login." });
+                //validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { "An error occurred during login." });
             }
 
             // Return any validation errors if they exist
@@ -188,6 +197,37 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
             }
             validateInput.ProcessCustomModelErrorResponseGVM("error");
             return createdUser;
+        }
+
+
+        [GraphQLName("manageUserModules")]
+        public async Task<UserModuleDetailsDTO> manageUserModules(UserModuleDetailsDTO input, [Service] AppDbContext context,[Service] UserModuleMutationService userModuleMutationService)
+        {
+            var validateInput = new ValidateInput();
+            UserModuleDetailsDTO res = new UserModuleDetailsDTO();
+            try
+            {
+
+                res = await userModuleMutationService.ManageUserModule(input);
+
+
+            }
+            catch (DbUpdateException ex)
+            {
+                var error = new Error(ex.Message, "500");
+                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { error.Message });
+
+                //Console.WriteLine("Update issue: " + ex.ToString());
+            }
+            catch (Exception ex)
+            {
+                var error = new Error(ex.Message, "500");
+                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { error.Message });
+
+
+            }
+            validateInput.ProcessCustomModelErrorResponseGVM("error");
+            return res;
         }
 
     }
