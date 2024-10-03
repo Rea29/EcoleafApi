@@ -13,6 +13,8 @@ using EcoleafAPI;
 using EcoleafAPI.GraphQL.MutationsTypes;
 using EcoleafAPI.GraphQL.QueryTypes;
 using HotChocolate.Types.Pagination;
+using Datalayer;
+using EcoleafAPI.Services.Queries.Users;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var jwtKey = configuration.GetValue<string>("JwtRequirements:Key");
@@ -35,6 +37,9 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = false
     };
 });
+// Register DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var AllowedOrigins = "AllowedOrigins";
 builder.WebHost.ConfigureKestrel(options =>
@@ -47,11 +52,6 @@ builder.WebHost.ConfigureKestrel(options =>
 
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
-{
-    sqlOptions.CommandTimeout(180);  // Adjust command timeout if needed
-}));
 
 builder.Services.AddCors(options =>
 {
@@ -64,6 +64,35 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+
+
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
+//{
+//    sqlOptions.CommandTimeout(180);  // Adjust command timeout if needed
+//}));
+
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy(name: AllowedOrigins,
+//        builder =>
+//        {
+//            builder.AllowAnyOrigin() //WithOrigins(GlobalSettings.CORSAllowedOrigin)
+//            .AllowAnyHeader()
+//            .AllowAnyMethod();
+//        });
+//});
+
+
+
+
+
+
+
+
+
 //builder.Services.AddCors(options =>
 //{
 //    options.AddPolicy("AllowSpecificOrigin",
@@ -75,13 +104,29 @@ builder.Services.AddCors(options =>
 //                .AllowAnyMethod();
 //        });
 //});
+//builder.Services.AddGetUsersQueryAsyncApplication();
 
+builder.Services.AddAuthorization();
+builder.Services.GetUsersQueryAsyncApplication();
+builder.Services.GetModulesQueryAsyncApplication();
+builder.Services.UserModuleMutationAsyncApplication();
+builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
+builder.Services.AddScoped<GetUsersQueryService>();
+builder.Services.AddScoped<GetModulesQueryAsync>();
+builder.Services.AddScoped<UserModuleMutationService>();
 
+
+//builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetUsersQueryAsync).Assembly));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(10);  // Adjust the timeout
+//    serverOptions.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(10);
+//});
 
 builder.Services
     .AddGraphQLServer()
@@ -112,6 +157,7 @@ builder.Services
     .AddType<ProgressReportMutation>()
     .AddType<UsersMutation>()
     .AddType<LocationQuery>()
+    .AddType<ModulesQuery>()
 
 
     .AddUploadType()
@@ -126,8 +172,10 @@ builder.Services
          IncludeTotalCount = true
      })
 
-     .AddAuthorization(); 
+     .AddAuthorization();
 
+//builder.Services.AddHttpContextAccessor();
+//builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 

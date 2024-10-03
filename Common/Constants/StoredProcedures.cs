@@ -29,8 +29,9 @@ namespace Common.Constants
 		{
 			public const string GET_ALL_MODULES = "GET_ALL_MODULES";
 			public const string GET_ROLE_BY_ID = "GET_ROLE_BY_ID";
+			public const string MANAGE_USER_MODULES = "MANAGE_USER_MODULES";
 
-			public const string CREATE_ROLE = "CREATE_ROLE";
+            public const string CREATE_ROLE = "CREATE_ROLE";
 			public const string UPDATE_ROLE = "UPDATE_ROLE";
 			public const string DELETE_ROLE = "DELETE_ROLE";
 		}

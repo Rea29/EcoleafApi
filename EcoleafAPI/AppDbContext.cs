@@ -20,6 +20,7 @@ using DTO.PowerToolsInventory;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static Common.Constants.DataAnnotations.RequiredFields;
 
 namespace EcoleafAPI
 {
@@ -47,6 +48,7 @@ namespace EcoleafAPI
         public DbSet<ProgressReportDTO> ProgressReport { get; set; }
         public DbSet<WareHouseInventoryDTO> WareHouseInventory { get; set; }
         public DbSet<UserTokenDTO> UserToken { get; set; }
+        public DbSet<UserRoleDTO> UserRole { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,8 +65,15 @@ namespace EcoleafAPI
             modelBuilder.Entity<UserDTO>().Ignore(p => p.RoleName);
             modelBuilder.Entity<UserDTO>().Ignore(p => p.LineId);
             modelBuilder.Entity<UserTokenDTO>().Ignore(p => p.LineId);
-
-
+            modelBuilder.Entity<UserDTO>().Ignore(p => p.UserModules);
+            modelBuilder.Entity<UserDTO>()
+           .HasKey(u => u.UserUID);
+            modelBuilder.Entity<UserRoleDTO>()
+           .HasKey(r => r.UserRoleUID); // Assuming RoleId is the key
+           // modelBuilder.Entity<UserDTO>()
+           //.HasMany(u => u)
+           //.WithOne(r => r.User) // Assuming UserRole has a navigation property back to User
+           //.HasForeignKey(r => r.UserUID); // Specify the foreign key if necessary
         }
 
     }

@@ -196,10 +196,11 @@ namespace Common.Helpers
 
                     }
 
-                    throw new GraphQLException(ErrList);
-                }
-            
-            
+                //throw new GraphQLException(ErrList);
+                throw new GraphQLException(ErrList);
+            }
+
+
         }
 
     }
