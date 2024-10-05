@@ -8,7 +8,12 @@ namespace Common.Constants
 {
 	public class StoredProcedures
 	{
-		public static class SampleSP
+        public static class EmployeeSP
+        {
+            public const string CREATE_EMPLOYEE = "CREATE_EMPLOYEE";
+
+        }
+        public static class SampleSP
 		{
 			public const string GET_ALL_SAMPLE = "GET_ALL_SAMPLE";
 
@@ -87,8 +92,14 @@ namespace Common.Constants
 			public const string VALIDATE_USER = "VALIDATE_USER";
 			public const string VALIDATE_ACCOUNT = "VALIDATE_ACCOUNT";
 		}
+        public static class ProjectsSP
+		{
+            public const string GET_ALL_MATERIALREQUISITIONSLIP = "GET_ALL_MATERIALREQUISITIONSLIP";
 
-		public static class ConfigurationSP
+        }
+
+
+        public static class ConfigurationSP
 		{
 			public const string GET_CONFIG = "GET_CONFIG";
 		}

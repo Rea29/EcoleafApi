@@ -108,13 +108,20 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.GetUsersQueryAsyncApplication();
+builder.Services.GetProjectAndMaterialRequisitionSlipsQueryAsyncApplication();
 builder.Services.GetModulesQueryAsyncApplication();
 builder.Services.UserModuleMutationAsyncApplication();
+builder.Services.EmployeesMutationMutationAsyncApplication();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
+
+//query
 builder.Services.AddScoped<GetUsersQueryService>();
 builder.Services.AddScoped<GetModulesQueryAsync>();
+builder.Services.AddScoped<GetProjectAndMaterialRequisitionSlipsQueryService>();
+//mutation
 builder.Services.AddScoped<UserModuleMutationService>();
+builder.Services.AddScoped<EmployeesMutationService>();
 
 
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetUsersQueryAsync).Assembly));
