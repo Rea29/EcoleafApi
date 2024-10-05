@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.Model.Global.Categories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,8 +25,13 @@ namespace Common.DTO.Users {
         public DateTime? CreatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
+        public List<SubUserModulesDTO>? SubUserModules { get; set; }
 
         //[NotMapped]
         //public string? AppUrl { get; set; }
+    }
+    public class SubUserModulesDTO : UserModulesDTO
+    {
+
     }
 }

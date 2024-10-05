@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.DTO.HumanResourceManagement;
 using Common.DTO.MaterialRequisitionSlip;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,8 @@ namespace DTO.MaterialRequesitionSlip
 
         //public List<MaterialRequestItemsDTO>? RequestItems { get; set; }
         // Navigation property
-        public List<MaterialRequestItemsDTO> Items { get; set; }
+        public List<MaterialRequestItemsDTO>? Items { get; set; }
+        public List<EmployeesDTO>? Employees { get; set; }
 
     }
 }

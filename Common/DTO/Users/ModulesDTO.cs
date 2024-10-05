@@ -27,8 +27,13 @@ namespace Common.DTO.Users {
 
 
         public bool? IsActive { get; set; }
+        public List<SubUserModules>? SubModules { get; set; }
 
         //[NotMapped]
         //public string? AppUrl { get; set; }
+    }
+    public class SubUserModules : ModulesDTO
+    {
+
     }
 }

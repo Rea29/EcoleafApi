@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
+//using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.DTO.MaterialRequisitionSlip;
+using DTO.MaterialRequesitionSlip;
 
 namespace Common.DTO.ProjectMonitoringManagement
 {
@@ -32,6 +33,9 @@ namespace Common.DTO.ProjectMonitoringManagement
         public DateTime? UpdatedAt { get; set; }
         public string? DeletedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
+        public List<MaterialRequisitionSlipDTO>? MaterialRequisitionSlip { get; set; }
+        //public List<MaterialRequestItemsDTO> Items { get; set; }
+
 
     }
 }

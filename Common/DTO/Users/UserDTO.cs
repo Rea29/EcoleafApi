@@ -1,4 +1,5 @@
 ﻿using Common.Constants;
+using Common.DTO.HumanResourceManagement;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,7 +39,10 @@ namespace Common.DTO.Users {
         public int? LoginAttempt { get; set; }
         public DateTime? LastLoginAttemptAt { get; set; }
         public string? RoleName { get; set; }
+       
+        public bool? IsAdmin { get; set; }
         public List<ModulesDTO>? UserModules { get; set; }
+        public List<EmployeesDTO>? Employee { get; set; }
         //[NotMapped]
         //public string? AppUrl { get; set; }
     }
