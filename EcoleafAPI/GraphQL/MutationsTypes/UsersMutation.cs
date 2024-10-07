@@ -127,10 +127,16 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
             {
                 validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { "Database update error." });
             }
+            catch (GraphQLException ex)
+            {
+                validateInput.AddCustomModelErrorResponseGVM("LoginError", new List<string> { ex.Message });
+
+            }
             catch (Exception ex)
             {
-                //validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { "An error occurred during login." });
+                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { "An error occurred during login." });
             }
+           
 
             // Return any validation errors if they exist
             validateInput.ProcessCustomModelErrorResponseGVM("error");

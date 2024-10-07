@@ -2,8 +2,12 @@
 using Common.Helpers;
 using Common.Model.Global.Input;
 using DTO.MaterialRequesitionSlip;
+using EcoleafAPI.Services.Queries.Users;
 using Microsoft.EntityFrameworkCore;
+using HotChocolate.Authorization;
+
 using System;
+using System.Security.Claims;
 
 namespace EcoleafAPI.GraphQL.MutationsTypes
 {
@@ -24,46 +28,49 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
         //    return res;
         //}
         [GraphQLName("addMaterialRequisitionSlip")]
-        public async Task<MaterialRequisitionSlipDTO> addMaterialRequisitionSlip(MaterialRequisitionSlipDTO input, [Service] AppDbContext context, CancellationToken cancellationToken)
+        [Authorize]
+        public async Task<MaterialRequisitionSlipDTO> addMaterialRequisitionSlip(MaterialRequisitionSlipDTO input, ClaimsPrincipal claimsPrincipal, [Service] CreateMRSMutationServiceService createMRSMutationServiceService, CancellationToken cancellationToken)
         {
             var validateInput = new ValidateInput();
             
             try
             {
-                
-                if (await context.MaterialRequisitionSlip.AnyAsync(p => p.ProjectUID == input.ProjectUID, cancellationToken))
-                {
-                
-                }
-                else
-                {
-                    input.MaterialRequestUID = Guid.NewGuid();
-                    input.IsActive = true;
-                    input.IsDeleted = false;
-                    input.CreatedAt = DateTime.Now;
-                    input.CreatedBy = "_System";
+                var nameIdentifier = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                Guid userUID = new Guid(nameIdentifier);
+                await createMRSMutationServiceService.InsertMRS(input, userUID);
+                //if (await context.MaterialRequisitionSlip.AnyAsync(p => p.ProjectUID == input.ProjectUID, cancellationToken))
+                //{
 
-                    
-                    foreach (var item in input.Items)
-                    {
-                        item.MaterialRequestItemsUID = Guid.NewGuid();
-                        item.MaterialRequestUID = input.MaterialRequestUID;
-                        item.IsActive = true;
-                        item.IsDeleted = false;
-                        item.CreatedAt = DateTime.Now;
-                        item.CreatedBy = "_System";
-                        context.MaterialRequestItems.Add(item);
-
-                        await context.SaveChangesAsync(cancellationToken);
-
-                    }
-                    context.MaterialRequisitionSlip.Add(input);
-                    
-                    await context.SaveChangesAsync(cancellationToken);
-                }
+                //}
+                //else
+                //{
+                //    input.MaterialRequestUID = Guid.NewGuid();
+                //    input.IsActive = true;
+                //    input.IsDeleted = false;
+                //    input.CreatedAt = DateTime.Now;
+                //    input.CreatedBy = "_System";
 
 
-                
+                //    foreach (var item in input.Items)
+                //    {
+                //        item.MaterialRequestItemsUID = Guid.NewGuid();
+                //        item.MaterialRequestUID = input.MaterialRequestUID;
+                //        item.IsActive = true;
+                //        item.IsDeleted = false;
+                //        item.CreatedAt = DateTime.Now;
+                //        item.CreatedBy = "_System";
+                //        context.MaterialRequestItems.Add(item);
+
+                //        await context.SaveChangesAsync(cancellationToken);
+
+                //    }
+                //    context.MaterialRequisitionSlip.Add(input);
+
+                //    await context.SaveChangesAsync(cancellationToken);
+                //}
+
+
+
 
 
             }
