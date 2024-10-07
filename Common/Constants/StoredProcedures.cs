@@ -13,6 +13,11 @@ namespace Common.Constants
             public const string CREATE_EMPLOYEE = "CREATE_EMPLOYEE";
 
         }
+        public static class MaterialRequisitionSlipSP
+        {
+            public const string CREATE_MATERIAL_REQUISITION_SLIP = "CREATE_MATERIAL_REQUISITION_SLIP";
+
+        }
         public static class SampleSP
 		{
 			public const string GET_ALL_SAMPLE = "GET_ALL_SAMPLE";

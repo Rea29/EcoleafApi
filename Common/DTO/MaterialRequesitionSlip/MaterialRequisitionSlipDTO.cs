@@ -36,7 +36,7 @@ namespace DTO.MaterialRequesitionSlip
         //public List<MaterialRequestItemsDTO>? RequestItems { get; set; }
         // Navigation property
         public List<MaterialRequestItemsDTO>? Items { get; set; }
-        public List<EmployeesDTO>? Employees { get; set; }
+        public List<MRSApproversDTO>? Approvers { get; set; }
 
     }
 }

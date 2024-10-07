@@ -15,6 +15,10 @@ using EcoleafAPI.GraphQL.QueryTypes;
 using HotChocolate.Types.Pagination;
 using Datalayer;
 using EcoleafAPI.Services.Queries.Users;
+using API.GraphQL;
+using Common.Model.FilterTypes;
+using EcoleafAPI.GraphQL.FilterTypes;
+using EcoleafAPI.GraphQL;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var jwtKey = configuration.GetValue<string>("JwtRequirements:Key");
@@ -112,16 +116,18 @@ builder.Services.GetProjectAndMaterialRequisitionSlipsQueryAsyncApplication();
 builder.Services.GetModulesQueryAsyncApplication();
 builder.Services.UserModuleMutationAsyncApplication();
 builder.Services.EmployeesMutationMutationAsyncApplication();
+builder.Services.CreateMRSMutationServiceMutationAsyncApplication();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
 
-//query
+//
 builder.Services.AddScoped<GetUsersQueryService>();
 builder.Services.AddScoped<GetModulesQueryAsync>();
 builder.Services.AddScoped<GetProjectAndMaterialRequisitionSlipsQueryService>();
 //mutation
 builder.Services.AddScoped<UserModuleMutationService>();
 builder.Services.AddScoped<EmployeesMutationService>();
+builder.Services.AddScoped<CreateMRSMutationServiceService>();
 
 
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetUsersQueryAsync).Assembly));
@@ -171,6 +177,10 @@ builder.Services
     .AddProjections()
     
     .AddFiltering()
+    .AddType<ProjectsFilterType>()
+
+    .AddFiltering<CustomFilteringConvention>()
+
     .AddSorting()
      .SetPagingOptions(new PagingOptions
      {

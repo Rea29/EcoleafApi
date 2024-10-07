@@ -127,7 +127,7 @@ namespace EcoleafAPI.Services.Queries.Users
                 if (users == null)
                 {
                     _logger.LogWarning("No users found from the stored procedure.");
-                    throw new GraphQLException("No users found from the stored procedure.");
+                    throw new GraphQLException("Looks like we couldn’t find that email address");
                 }
 
                 _logger.LogInformation("Successfully fetched users.");

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 using Common.DTO.MaterialRequisitionSlip;
+using Common.Model.Global.Categories;
 using DTO.MaterialRequesitionSlip;
 
 namespace Common.DTO.ProjectMonitoringManagement
@@ -33,9 +34,14 @@ namespace Common.DTO.ProjectMonitoringManagement
         public DateTime? UpdatedAt { get; set; }
         public string? DeletedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
-        public List<MaterialRequisitionSlipDTO>? MaterialRequisitionSlip { get; set; }
+        public List<SubMaterialRequisitionSlipDTO>? MaterialRequisitionSlip { get; set; }
         //public List<MaterialRequestItemsDTO> Items { get; set; }
 
+
+    }
+
+    public class SubMaterialRequisitionSlipDTO : MaterialRequisitionSlipDTO
+    {
 
     }
 }
