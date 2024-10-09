@@ -65,7 +65,7 @@ namespace EcoleafAPI.GraphQL.QueryTypes
         [UseSorting]
         [Authorize]
 
-        public async Task<List<ProjectsDTO>> getProjectsAndMaterialRequisitionSlipAsync(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] GetProjectAndMaterialRequisitionSlipsQueryService getProjectAndMaterialRequisitionSlipsQueryAsync)
+        public async Task<List<ProjectsDTO>> getProjectsAndMaterialRequisitionSlipAsync(HttpContext context, [Service] AppDbContext _context, ClaimsPrincipal claimsPrincipal, [Service] GetProjectAndMaterialRequisitionSlipsQueryService getProjectAndMaterialRequisitionSlipsQueryAsync)
         {
             List<ProjectsDTO> projects = new List<ProjectsDTO>();
             try
@@ -73,7 +73,10 @@ namespace EcoleafAPI.GraphQL.QueryTypes
                 //projects = await _context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
                 var nameIdentifier = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
                 Guid userUID = new Guid(nameIdentifier);
-                //projects = ConvertListModelValueToLowerHelper.Convert(projects);
+                ////projects = ConvertListModelValueToLowerHelper.Convert(projects);
+                //var userInfo = await _context.Users.Where(p => p.UserUID == userUID).FirstOrDefaultAsync();
+                //var emp = await _context.Employees.Where(p => p.EmployeesUID == userInfo.EmployeesUID).ToListAsync();
+
                 projects = await getProjectAndMaterialRequisitionSlipsQueryAsync.GetProjectAndMaterialRequisitionSlipsByUserUIDQueryAsync(userUID, new ProjectsDTO());
 
                 //projects = await _context.ToLowerCase(_context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null)).ToListAsync();

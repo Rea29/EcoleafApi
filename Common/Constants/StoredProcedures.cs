@@ -16,6 +16,7 @@ namespace Common.Constants
         public static class MaterialRequisitionSlipSP
         {
             public const string CREATE_MATERIAL_REQUISITION_SLIP = "CREATE_MATERIAL_REQUISITION_SLIP";
+            public const string APPROVE_MATERIAL_REQUISITION_SLIP = "APPROVE_MATERIAL_REQUISITION_SLIP";
 
         }
         public static class SampleSP

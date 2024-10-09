@@ -117,6 +117,7 @@ builder.Services.GetModulesQueryAsyncApplication();
 builder.Services.UserModuleMutationAsyncApplication();
 builder.Services.EmployeesMutationMutationAsyncApplication();
 builder.Services.CreateMRSMutationServiceMutationAsyncApplication();
+builder.Services.ApproveMRSMutationServiceAsyncApplication();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
 
@@ -128,6 +129,7 @@ builder.Services.AddScoped<GetProjectAndMaterialRequisitionSlipsQueryService>();
 builder.Services.AddScoped<UserModuleMutationService>();
 builder.Services.AddScoped<EmployeesMutationService>();
 builder.Services.AddScoped<CreateMRSMutationServiceService>();
+builder.Services.AddScoped<ApproveMRSMutationService>();
 
 
 //builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetUsersQueryAsync).Assembly));

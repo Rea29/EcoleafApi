@@ -127,6 +127,45 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
             validateInput.ProcessCustomModelErrorResponseGVM("error");
             return input;
         }
+        [GraphQLName("approveMaterialRequistionSlip")]
+        public async Task<MaterialRequisitionSlipDTO> approveMaterialRequistionSlipAsync(Guid input, ClaimsPrincipal claimsPrincipal, [Service] ApproveMRSMutationService approveMRSMutationService, CancellationToken cancellationToken)
+        {
+            var validateInput = new ValidateInput();
+
+            try
+            {
+                //var materialRequisitionSlip = await context.MaterialRequisitionSlip.FirstOrDefaultAsync(p => p.MaterialRequestUID == input.MaterialRequestUID, cancellationToken);
+                //if (materialRequisitionSlip is null)
+                //{
+                //    validateInput.AddCustomModelErrorResponseGVM("MaterialRequestUID", new List<string> { "MaterialRequest does not exists" });
+                //}
+                //else
+                //{
+                //    context.MaterialRequisitionSlip.Update(input);
+                //    await context.SaveChangesAsync(cancellationToken);
+                //}
+                var nameIdentifier = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                Guid userUID = new Guid(nameIdentifier);
+                await approveMRSMutationService.ApproveMRS(input, userUID);
+
+
+
+            }
+            catch (DbUpdateException ex)
+            {
+                var error = new Error(ex.Message, "500");
+                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { error.Message });
+                //Console.WriteLine("Update issue: " + ex.ToString());
+            }
+            catch (Exception ex)
+            {
+                var error = new Error(ex.Message, "500");
+                validateInput.AddCustomModelErrorResponseGVM("ServerError", new List<string> { error.Message });
+
+            }
+            validateInput.ProcessCustomModelErrorResponseGVM("error");
+            return new MaterialRequisitionSlipDTO();
+        }
 
     }
 }
