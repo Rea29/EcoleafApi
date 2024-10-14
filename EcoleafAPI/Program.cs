@@ -213,7 +213,13 @@ app.UseCors(AllowedOrigins);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGraphQL();
+//app.MapGraphQL();
+//app.MapGraphQL();
+app.MapGraphQL().WithOptions(new GraphQLServerOptions()
+{
+    Tool = { Enable = false }
+});
+//app.MapGraphQL("/graphql");
 app.MapControllers();
 
 

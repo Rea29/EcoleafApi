@@ -1,6 +1,7 @@
 ﻿using Common.Constants;
 using Common.DTO.HumanResourceManagement;
 using Common.DTO.MaterialRequisitionSlip;
+using Common.DTO.ProjectMonitoringManagement;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,9 +14,9 @@ namespace DTO.MaterialRequesitionSlip
 {
     public class MaterialRequisitionSlipDTO
     {
-        [Key]
+      
         public Int64? LineId { get; set; }
-        
+        [Key]
         public Guid? MaterialRequestUID { get; set; }
         public string? TypeOfRequest { get; set; }
         public string? MRSNumber { get; set; }
@@ -26,6 +27,7 @@ namespace DTO.MaterialRequesitionSlip
         public string? ScheduleOfUrgency { get; set; }
         public bool? IsActive { get; set; }
         public bool? IsDeleted { get; set; }
+        public string? CreatedByName { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string? UpdatedBy { get; set; }
@@ -37,6 +39,8 @@ namespace DTO.MaterialRequesitionSlip
         // Navigation property
         public List<MaterialRequestItemsDTO>? Items { get; set; }
         public List<MRSApproversDTO>? Approvers { get; set; }
+        public List<ProjectsDTO>? Project { get; set; }
+
 
     }
 }
