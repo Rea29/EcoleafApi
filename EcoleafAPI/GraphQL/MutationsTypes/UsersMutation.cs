@@ -9,6 +9,7 @@ using Common.Token;
 using DTO.MaterialRequesitionSlip;
 using EcoleafAPI.Services.Queries.Users;
 using GreenDonut;
+using HotChocolate.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,6 +40,7 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
         //    return res;
         //}
         [GraphQLName("login")]
+        [AllowAnonymous]
         public async Task<LoginGVM> LoginAsync(LoginGVM input, HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context, [Service] GetUsersQueryService getUsersQueryService)
         {
             var result = new LoginGVM { Email = input.Email, Password = input.Password };
@@ -145,6 +147,7 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
         }
 
         [GraphQLName("addUsers")]
+        
         public async Task<UserDTO> addUsers(UserDTO user, [Service] AppDbContext context, CancellationToken cancellationToken)
         {
             var validateInput = new ValidateInput();
@@ -207,6 +210,7 @@ namespace EcoleafAPI.GraphQL.MutationsTypes
 
 
         [GraphQLName("manageUserModules")]
+        [Authorize]
         public async Task<UserModuleDetailsDTO> manageUserModules(UserModuleDetailsDTO input, [Service] AppDbContext context,[Service] UserModuleMutationService userModuleMutationService)
         {
             var validateInput = new ValidateInput();

@@ -45,6 +45,7 @@ namespace EcoleafAPI
         public DbSet<BarangaysDTO> Barangays { get; set; }
         public DbSet<CountryDTO> Countries { get; set; }
         public DbSet<ProjectsDTO> Projects { get; set; }
+        public DbSet<ProjectsListDTO> ProjectsList { get; set; }
         public DbSet<ProgressReportDTO> ProgressReport { get; set; }
         public DbSet<WareHouseInventoryDTO> WareHouseInventory { get; set; }
         public DbSet<UserTokenDTO> UserToken { get; set; }
@@ -65,7 +66,10 @@ namespace EcoleafAPI
             modelBuilder.Entity<UserDTO>().Ignore(p => p.RoleName);
             modelBuilder.Entity<UserDTO>().Ignore(p => p.LineId);
             modelBuilder.Entity<UserTokenDTO>().Ignore(p => p.LineId);
+            modelBuilder.Entity<UserDTO>().Ignore(p => p.Employee);
             modelBuilder.Entity<UserDTO>().Ignore(p => p.UserModules);
+          
+
             modelBuilder.Entity<UserDTO>()
            .HasKey(u => u.UserUID);
             modelBuilder.Entity<UserRoleDTO>()

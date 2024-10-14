@@ -10,6 +10,7 @@ using HotChocolate.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using static Common.Constants.StoredProcedures;
 
 namespace EcoleafAPI.GraphQL.QueryTypes
 {
@@ -29,7 +30,7 @@ namespace EcoleafAPI.GraphQL.QueryTypes
         [UseSorting]
         [Authorize]
 
-        public async Task<List<ProjectsDTO>> getProjectsAndMaterialRequisitionSlipAsync(Guid input,HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] GetProjectAndMaterialRequisitionSlipsQueryService getProjectAndMaterialRequisitionSlipsQueryAsync)
+        public async Task<List<ProjectsDTO>> getProjectsAndMaterialRequisitionSlipAsync(Guid input,Guid materialRequestUID, HttpContext context, [Service] AppDbContext _context, ClaimsPrincipal claimsPrincipal, [Service] GetProjectAndMaterialRequisitionSlipsQueryService getProjectAndMaterialRequisitionSlipsQueryAsync)
         {
             List<ProjectsDTO> projects = new List<ProjectsDTO>();
             try
@@ -39,8 +40,10 @@ namespace EcoleafAPI.GraphQL.QueryTypes
                 Guid userUID = new Guid(nameIdentifier);
                 ProjectsDTO projectsDTO = new ProjectsDTO();
                 //projects = ConvertListModelValueToLowerHelper.Convert(projects);
+                var user = await _context.Users.Where(p => p.UserUID == userUID).FirstOrDefaultAsync();
+                var emp = await _context.Employees.Where(p => p.EmployeesUID == user.EmployeesUID).FirstOrDefaultAsync();
                 projectsDTO.ProjectUID = input;
-                projects = await getProjectAndMaterialRequisitionSlipsQueryAsync.GetProjectAndMaterialRequisitionSlipsByProjectUIDQueryAsync(userUID, projectsDTO);
+                projects = await getProjectAndMaterialRequisitionSlipsQueryAsync.GetProjectAndMaterialRequisitionSlipsByProjectUIDQueryAsync(userUID, projectsDTO, emp, materialRequestUID.ToString());
 
                 //projects = await _context.ToLowerCase(_context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null)).ToListAsync();
                 //var results = _context.ToLowerCase(context.YourModels).ToList();
@@ -72,12 +75,18 @@ namespace EcoleafAPI.GraphQL.QueryTypes
             {
                 //projects = await _context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
                 var nameIdentifier = claimsPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(nameIdentifier))
+                {
+                    throw new GraphQLException(new Error("User not authenticated or NameIdentifier claim is missing.", "401"));
+                }
                 Guid userUID = new Guid(nameIdentifier);
                 ////projects = ConvertListModelValueToLowerHelper.Convert(projects);
                 //var userInfo = await _context.Users.Where(p => p.UserUID == userUID).FirstOrDefaultAsync();
-                //var emp = await _context.Employees.Where(p => p.EmployeesUID == userInfo.EmployeesUID).ToListAsync();
+                var user = await _context.Users.Where(p => p.UserUID == userUID).FirstOrDefaultAsync();
+                var emp = await _context.Employees.Where(p => p.EmployeesUID == user.EmployeesUID).FirstOrDefaultAsync();
 
-                projects = await getProjectAndMaterialRequisitionSlipsQueryAsync.GetProjectAndMaterialRequisitionSlipsByUserUIDQueryAsync(userUID, new ProjectsDTO());
+                projects = await getProjectAndMaterialRequisitionSlipsQueryAsync.GetProjectAndMaterialRequisitionSlipsByUserUIDQueryAsync(userUID, new ProjectsDTO(), emp);
+                projects = ConvertListModelValueToLowerHelper.Convert(projects);
 
                 //projects = await _context.ToLowerCase(_context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null)).ToListAsync();
                 //var results = _context.ToLowerCase(context.YourModels).ToList();
@@ -106,7 +115,7 @@ namespace EcoleafAPI.GraphQL.QueryTypes
             try
             {
                 projectMonitoringManagementLis = await _context.ProjectMonitoringManagement.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
-               
+                projectMonitoringManagementLis = ConvertListModelValueToLowerHelper.Convert(projectMonitoringManagementLis);
             }
             catch (DbUpdateException ex)
             {
@@ -127,12 +136,12 @@ namespace EcoleafAPI.GraphQL.QueryTypes
         [UseFiltering]
         [UseSorting]
 
-        public async Task<List<ProjectsDTO>> getProjectsAsync(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context)
+        public async Task<List<ProjectsListDTO>> getProjectsAsync(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context)
         {
-            List<ProjectsDTO> projects = new List<ProjectsDTO>();
+            List<ProjectsListDTO> projects = new List<ProjectsListDTO>();
             try
             {
-                projects = await _context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
+                projects = await _context.ProjectsList.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
 
                 projects = ConvertListModelValueToLowerHelper.Convert(projects);
                 //projects = await _context.ToLowerCase(_context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null)).ToListAsync();

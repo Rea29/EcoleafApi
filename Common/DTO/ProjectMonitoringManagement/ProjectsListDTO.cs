@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 //using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +13,7 @@ using DTO.MaterialRequesitionSlip;
 namespace Common.DTO.ProjectMonitoringManagement
 {
     
-    public class ProjectsDTO
+    public class ProjectsListDTO
     {
         
         public Int64? LineId { get; set; }
@@ -36,17 +38,9 @@ namespace Common.DTO.ProjectMonitoringManagement
         public DateTime? UpdatedAt { get; set; }
         public string? DeletedBy { get; set; }
         public DateTime? DeletedAt { get; set; }
-        public List<SubMaterialRequisitionSlipDTO>? MaterialRequisitionSlip { get; set; }
         //public List<MaterialRequestItemsDTO> Items { get; set; }
 
 
     }
 
-    public class SubMaterialRequisitionSlipDTO : MaterialRequisitionSlipDTO
-    {
-        public static implicit operator List<object>(SubMaterialRequisitionSlipDTO v)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }
