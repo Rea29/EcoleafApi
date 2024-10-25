@@ -101,6 +101,7 @@ namespace Common.Constants
         public static class ProjectsSP
 		{
             public const string GET_ALL_MATERIALREQUISITIONSLIP = "GET_ALL_MATERIALREQUISITIONSLIP";
+            public const string GET_ALL_PROJECTS = "GET_ALL_PROJECTS";
 
         }
 

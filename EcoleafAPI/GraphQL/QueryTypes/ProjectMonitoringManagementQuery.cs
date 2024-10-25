@@ -136,12 +136,12 @@ namespace EcoleafAPI.GraphQL.QueryTypes
         [UseFiltering]
         [UseSorting]
 
-        public async Task<List<ProjectsListDTO>> getProjectsAsync(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context)
+        public async Task<List<ProjectsDTO>> getProjectsAsync(HttpContext context, ClaimsPrincipal claimsPrincipal, [Service] AppDbContext _context, [Service] GetProjectsService getProjectsService)
         {
-            List<ProjectsListDTO> projects = new List<ProjectsListDTO>();
+            List<ProjectsDTO> projects = new List<ProjectsDTO>();
             try
             {
-                projects = await _context.ProjectsList.Where(p => p.IsDeleted == false || p.IsDeleted == null).ToListAsync();
+                projects = await getProjectsService.GetProjects();
 
                 projects = ConvertListModelValueToLowerHelper.Convert(projects);
                 //projects = await _context.ToLowerCase(_context.Projects.Where(p => p.IsDeleted == false || p.IsDeleted == null)).ToListAsync();

@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="Services\Mutations\Accounts\" />
+    <Folder Include="Services\Mutations\Projects\" />
   </ItemGroup>
 
 </Project>
