@@ -118,6 +118,7 @@ builder.Services.UserModuleMutationAsyncApplication();
 builder.Services.EmployeesMutationMutationAsyncApplication();
 builder.Services.CreateMRSMutationServiceMutationAsyncApplication();
 builder.Services.ApproveMRSMutationServiceAsyncApplication();
+builder.Services.GetProjectsAsyncApplication();
 builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
 
@@ -125,6 +126,7 @@ builder.Services.AddScoped<IJwtAuthentication, JwtAuthentication>();
 builder.Services.AddScoped<GetUsersQueryService>();
 builder.Services.AddScoped<GetModulesQueryAsync>();
 builder.Services.AddScoped<GetProjectAndMaterialRequisitionSlipsQueryService>();
+builder.Services.AddScoped<GetProjectsService>();
 //mutation
 builder.Services.AddScoped<UserModuleMutationService>();
 builder.Services.AddScoped<EmployeesMutationService>();
